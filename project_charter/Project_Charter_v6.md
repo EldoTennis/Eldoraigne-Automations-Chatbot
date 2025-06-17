@@ -20,27 +20,34 @@ To create an automated, conversational interface for the Eldoraigne Tennis Club 
 
 ### 1.3. Success Criteria
 - The system can successfully identify a user's role and present them with the correct, role-specific menu.
+- The system can guide a committee member through the entire multi-step process of creating a social media communication post.
 - The system's configuration can be updated by editing a Google Sheet, without modifying the core n8n workflow.
+- The architecture is modular, allowing for future integration of new platforms (like WhatsApp).
 - All project artifacts are version-controlled in the central GitHub repository.
 
 ---
 
 ## 2. Business Requirements
 
+This section acts as the formal input from the project owner.
 - **BR-001: Core Mission:** The system shall provide automated and conversational capabilities for the Eldoraigne Tennis Club.
-- **BR-002: User Segmentation:** The system must identify and segment users into `committee`, `member`, and `unknown` roles with role-specific menus.
-- **BR-003: Core Feature:** Committee members must have a feature to generate communications for social events.
-- **BR-004: Maintainability:** The system must be administered by a non-coder via Google Sheets.
-- **BR-005: Platform Strategy:** The initial interface is a Telegram chatbot, but the architecture must be modular to support future platforms.
-- **BR-006: Technology Stack:** The system will use a self-hosted n8n.io instance, a Postgres SQL database, and Google Workspace.
-- **BR-007: Version Control:** All project artifacts must be stored and version-controlled in a central GitHub repository.
+- **BR-002: User Segmentation & Access Control:** The system must identify users and segment them into `committee`, `member`, and `unknown` roles.
+- **BR-003: Role-Based Menus:** Each user role must be presented with a unique, dynamic menu of options relevant to their role.
+- **BR-004: Committee Member Features:** Committee members shall have access to four main feature categories: "Duty Roster," "Communications," "Members," and "Treasurer," each with a corresponding sub-menu of actions.
+- **BR-005: System Administration & Maintainability:** The system must be designed to be administered by a non-coder via Google Sheets.
+- **BR-006: Platform Strategy:** The initial user interface will be a Telegram chatbot, with a modular architecture to support future platforms.
+- **BR-007: Technology Stack:** The system will use a self-hosted n8n.io instance, a Postgres SQL database, and the club's existing Google Workspace subscription.
+- **BR-008: Version Control:** All project artifacts must be stored and version-controlled in a central GitHub repository.
+- **BR-009: Secure Google Workspace Integration:** The system must interact with Google Workspace services securely, without using personal user accounts.
 
 ---
 
 ## 3. Core System Architecture
 
 ### 3.1. Architectural Pattern: The "Platform-Agnostic Adapter" Model
-The system uses two types of n8n workflows: **Adapters** (platform-specific) and a **Core Engine** (platform-agnostic logic).
+The system is composed of two distinct types of n8n workflows:
+- **Adapters:** Lightweight workflows for specific chat platforms (e.g., Telegram). They translate messages between the platform and the Core Engine.
+- **Core Engine:** A single, platform-agnostic workflow that contains all business logic, state management, and connections to data sources.
 
 ### 3.2. High-Level Design (Component Diagram)
 The canonical version of this diagram is maintained as a Mermaid `.mmd` file in the GitHub repository under `/architecture_diagrams/`.
@@ -51,13 +58,23 @@ The canonical version of this diagram is maintained as a Mermaid `.mmd` file in 
 - **AI Operating Principles:** The `AI_Constitution.md` file defines the rules the AI developer must follow.
 - **Project History:** The `Changelog.md` file documents the project's evolution.
 
-### 3.4. Technology Stack & Credentials Store
+### 3.4. Technology Stack & Security Model
 - **Workflow Automation:** n8n.io (Community Edition, Self-Hosted)
 - **State Management:** Postgres SQL Database
-- **Configuration & Knowledge:** Google Sheets / Google Docs
-- **LLM Provider:** Google AI (Gemini Pro)
 - **Primary Chat Interface:** Telegram
-- **Credentials Management:** Sensitive credentials will be stored exclusively within n8n's encrypted Credentials store.
+- **LLM Provider:** Google AI (Gemini Pro)
+- **Google Workspace Integration (Security Model):**
+    - A dedicated, non-human **Google Service Account** will be used for all interactions with Google Workspace.
+    - This Service Account will have **no permissions by default**.
+    - Access will be granted on a resource-by-resource basis by sharing specific Google Drive folders, Google Sheets, or Google Calendars with the Service Account's unique email address.
+    - Personal user credentials will never be used.
+- **Google Workspace Tools in Scope:**
+    - **Google Sheets:** For configuration (menus, roles) and knowledge storage.
+    - **Google Drive:** For folder-based permission management.
+    - **Google Calendar:** For reading and writing club events.
+    - **(Future) Google Contacts:** For member management, if required.
+    - **(Future) Google Tasks:** For assigning automated tasks.
+- **Credentials Management:** All sensitive credentials (Service Account JSON key, API keys, tokens) will be stored exclusively within n8n's encrypted Credentials store.
 
 ---
 
@@ -69,14 +86,110 @@ New `Business Requirements` are provided by the Project Lead. The AI Solutions A
 ### 4.2. Release Phase (Formal)
 Upon the command **"This is approved. Prepare the release for commit,"** the AI will generate a complete "Release Package" containing all changed artifacts formatted for their destination. The Project Lead is responsible for committing these updates to the GitHub repository.
 
-### 4.3. AI Portability Guide
-To transfer this project to a new AI model or platform, the following steps should be followed:
-1.  **Initiate a New Chat:** Start a fresh conversation with the new AI.
-2.  **Provide Full Context:** Copy the entire contents of the latest Project Charter version (`/project_charter/Project_Charter_vX.md`) and paste it as the initial prompt.
-3.  **Provide the AI's Constitution:** Copy the entire contents of `AI_Constitution.md` and provide it to the AI.
-4.  **Provide the Changelog:** Copy the entire contents of `Changelog.md` to give the AI a history of what has been tried.
-5.  **State the Goal:** Conclude the initial prompt with a clear directive, such as: "You are now the AI Solutions Architect for this project. Your task is to continue development based on my next set of business requirements. Acknowledge that you have understood and assimilated this context."
+---
+
+## 5. Functional Requirements
+
+### 5.1. User Role Identification
+- **FR-5.1.1:** Upon receiving a message, the system must use the user's `chat.id` to look up their `role` in the `Member List` Google Sheet.
+- **FR-5.1.2:** Based on the `role` returned, the system will look up and display the corresponding main menu from the `Menu_Structure` configuration sheet.
+
+### 5.2. Committee Member Menu Structure
+The following tables define the menus and sub-menus that will be presented to users with the `committee` role.
+
+**5.2.1. Main Menu (`main_menu_committee`)**
+*   **Message Text:** `Welcome, Committee Member [User Name]! What would you like to do?`
+
+| Button Text | `callback_data` | Target |
+| :--- | :--- | :--- |
+| 1. Duty Roster | `menu_duty_roster` | Display Sub-Menu: `sub_menu_duty_roster` |
+| 2. Communications | `menu_communications` | Display Sub-Menu: `sub_menu_communications` |
+| 3. Members | `menu_members` | Display Sub-Menu: `sub_menu_members` |
+| 4. Treasurer | `menu_treasurer` | Display Sub-Menu: `sub_menu_treasurer` |
+
+**5.2.2. Sub-Menu: Duty Roster (`sub_menu_duty_roster`)**
+*   **Message Text:** `Duty Roster Actions:`
+
+| Button Text | `callback_data` | Target |
+| :--- | :--- | :--- |
+| 1. Check when I am next on Duty | `action_check_my_duty` | Start Workflow: `Check Personal Duty` |
+| 2. Check Schedule for next 8 weeks | `action_view_8_week_roster` | Start Workflow: `View Roster Schedule` |
+| 3. Swop out my duty schedule | `action_initiate_swop` | Start Workflow: `Duty Swop` |
+| ⬅️ Back to Main Menu | `menu_main_committee` | Display Main Menu |
+
+**5.2.3. Sub-Menu: Communications (`sub_menu_communications`)**
+*   **Message Text:** `What type of communication would you like to create?`
+
+| Button Text | `callback_data` | Target |
+| :--- | :--- | :--- |
+| 1. Wednesday Social | `action_comms_wednesday` | Start Workflow: `Create Social Comms` |
+| 2. Saturday Social | `action_comms_saturday` | Start Workflow: `Create Social Comms` |
+| 3. Junior Program | `action_comms_junior` | Start Workflow: `Create Generic Comms` |
+| 4. Birthdays | `action_comms_birthdays` | Start Workflow: `Create Birthday Comms` |
+| 5. Leagues | `action_comms_leagues` | Start Workflow: `Create Generic Comms` |
+| 6. Club Champs | `action_comms_champs` | Start Workflow: `Create Generic Comms` |
+| 7. Special Club Event | `action_comms_special` | Start Workflow: `Create Generic Comms` |
+| 8. Other | `action_comms_other` | Start Workflow: `Create Generic Comms` |
+| ⬅️ Back to Main Menu | `menu_main_committee` | Display Main Menu |
+
+**5.2.4. Sub-Menu: Members (`sub_menu_members`)**
+*   **Message Text:** `Member Management Actions:`
+
+| Button Text | `callback_data` | Target |
+| :--- | :--- | :--- |
+| 1. Query Member Contact | `action_query_member` | Start Workflow: `Query Member Details` |
+| 2. Update Member Contact | `action_update_member` | Start Workflow: `Update Member Details` |
+| 3. Provide Member Stats | `action_member_stats` | Start Workflow: `Generate Member Stats` |
+| ⬅️ Back to Main Menu | `menu_main_committee` | Display Main Menu |
+
+**5.2.5. Sub-Menu: Treasurer (`sub_menu_treasurer`)**
+*   **Message Text:** `Treasurer Actions:`
+
+| Button Text | `callback_data` | Target |
+| :--- | :--- | :--- |
+| 1. Membership Payment Stats | `action_payment_stats` | Start Workflow: `Generate Payment Stats` |
+| 2. Outstanding membership | `action_outstanding_payments` | Start Workflow: `Generate Outstanding List` |
+| ⬅️ Back to Main Menu | `menu_main_committee` | Display Main Menu |
 
 ---
 
-**(Sections 5, 6, and 7 are now maintained in separate files as defined below)**
+## 6. Data & Configuration Schema
+
+### 6.1. Configuration Hub (Google Sheets)
+*   **Sheet: `Member_List`** (previously `User_Roles`) -> Columns: `chat_id`, `user_name`, `role`
+*   **Sheet: `Menu_Structure`** -> Columns: `menu_name`, `message_text`, `button_1_text`, `button_1_callback`, `button_2_text`, `button_2_callback`, ...
+*   **Sheet: `Step_Messages`** -> Columns: `step_name`, `message_text`, `button_1_text`, `button_1_callback`, ...
+
+### 6.2. State Database (JSON Structure)
+*   The state for each `chat.id` will be stored as a JSON object in the Postgres database.
+*   **Example Structure:**
+    ```json
+    {
+      "currentStep": "awaiting_main_menu_choice",
+      "userName": "John Doe",
+      "userRole": "committee",
+      "activeWorkflow": "none",
+      "workflowData": {}
+    }
+    ```
+
+---
+
+## 7. The Constitution (My Core Operating Principles)
+
+This is the rulebook I, the AI assistant, must follow.
+*   **Principle 1: The Requirement Translation Mandate:** My primary function is to translate `Business Requirements` into updates across all relevant sections of this charter.
+*   **Principle 2: The Development Cycle Mandate:** I must adhere to the "Development & Release Cycle" defined in Section 4. I will only produce a full "Release Package" for GitHub upon the user's explicit approval command.
+*   **Principle 3: The "Dumb Robot" Core Model:** I will design the bot to be a stateful robot that executes a script.
+*   **Principle 4: The "One-Way Street" Architecture:** The workflow must be linear and sequential.
+*   **Principle 5: The "Ask-Then-Act" Interaction Pattern:** The bot must present simple, static menus first, and only perform complex actions *after* a user has made their selection.
+*   **Principle 6: Maintainability First:** Designs must prioritize management via Google Sheets for a non-coder.
+*   **Principle 7: No Omissions, No Summaries:** All provided artifacts, especially within a formal Release Package, must be complete and unabridged.
+
+---
+
+## 8. Project History & Changelog
+
+*   **v1.0 - v4.0:** Established the core charter, project name, defined the "Platform-Agnostic Adapter" model, formalized the Business Requirements section and the use of a GitHub repository.
+*   **v5.0:** Formalized the "Development & Release Cycle" and established the GitHub Wiki as the official "Operator's Manual".
+*   **v6.0 (Current):** Defined the full menu structure for Committee Members. Formalized the use of a Google Service Account as the official security model for interacting with Google Workspace tools and APIs.
