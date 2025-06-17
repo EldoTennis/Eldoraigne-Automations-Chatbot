@@ -1,7 +1,7 @@
 # Low-Level Design (LLD)
 
 **Project Name:** Eldoraigne Automations & Chatbot
-**Version:** 2.0
+**Version:** 2.1
 **Last Updated:** 26 June 2025
 
 ---
@@ -109,4 +109,5 @@
 
 ## 3. Changelog
 - **v1.0:** Document created. Migrated all detailed functional requirements and data schemas from the monolithic Project Charter v8.0.
-- **v2.0 (Current):** Added standard document header. Corrected omissions and Markdown formatting for nested code blocks from the initial migration.
+- **v2.0:** Added standard document header. Corrected omissions from the initial migration.
+- **v2.1 (Current):** Corrected Markdown formatting for nested JSON code block to resolve rendering issues.
