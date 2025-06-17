@@ -1,0 +1,23 @@
+graph TD
+    subgraph "User Environment"
+        U[<i class='fa fa-user'></i> Telegram User]
+    end
+
+    subgraph "n8n.io (Self-Hosted)"
+        TA[1. Telegram Adapter Workflow]
+        CE[2. Core Logic Engine Workflow]
+        LLM[3. LLM/AI Node]
+        DB[(4. Postgres DB<br><i>State Management</i>)]
+    end
+
+    subgraph "Google Workspace"
+        GSC[<i class='fa fa-table'></i> Google Sheets<br><i>Configuration Hub</i>]
+        GSK[<i class='fa fa-table'></i> Google Sheets<br><i>Knowledge Store</i>]
+    end
+
+    U <--> TA
+    TA -- Webhook Call --> CE
+    CE -- Reads/Writes State --> DB
+    CE -- Reads Config --> GSC
+    CE -- Calls AI for creative tasks --> LLM
+    CE -- Writes final output --> GSK
