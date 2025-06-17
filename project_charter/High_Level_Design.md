@@ -1,7 +1,7 @@
 # High-Level Design (HLD)
 
 **Project Name:** Eldoraigne Automations & Chatbot
-**Version:** 2.0
+**Version:** 2.1
 **Last Updated:** 26 June 2025
 
 ---
@@ -68,4 +68,5 @@ Upon the command **"This is approved. Prepare the release for commit,"** the AI 
 
 ## 3. Changelog
 - **v1.0:** Document created. Migrated all architectural, security, and process definitions from the monolithic Project Charter v8.0.
-- **v2.0 (Current):** Re-organized sections to move "Technology Stack," "Code Repository," and "Development Cycle" into this document from the BRS, as they are architectural concerns. Corrected Markdown formatting for nested Mermaid diagram.
+- **v2.0:** Re-organized sections to move "Technology Stack," "Code Repository," and "Development Cycle" into this document from the BRS, as they are architectural concerns.
+- **v2.1 (Current):** Corrected Markdown formatting for nested Mermaid diagram to resolve rendering issues.
