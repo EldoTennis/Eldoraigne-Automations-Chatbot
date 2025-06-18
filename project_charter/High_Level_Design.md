@@ -1,7 +1,7 @@
 # High-Level Design (HLD)
 
 **Project Name:** Eldoraigne Automations & Chatbot
-**Version:** 3.0
+**Version:** 4.1
 **Last Updated:** 26 June 2025
 
 ---
@@ -60,38 +60,44 @@ The system is composed of two distinct types of n8n workflows:
 
 ### 2.1. Hosting & Portability
 - **Current Hosting:** The n8n instance and Postgres database are currently hosted on Render.
-- **Portability:** The architecture is designed to be portable. A migration to a different hosting provider (e.g., bare-metal or another cloud provider) would primarily involve migrating the Postgres database and re-configuring the n8n environment variables. The core workflow logic remains unchanged.
+- **Portability:** The architecture is designed to be portable. A migration to a different hosting provider would primarily involve migrating the Postgres database and re-configuring the n8n environment variables.
 
 ### 2.2. Backup & Disaster Recovery
 - **Configuration Files (Google Sheets):** A dedicated, scheduled n8n workflow (`Backup Automation`) will run nightly. It will read each sheet from the Configuration Hub and save a timestamped `.csv` version to a dedicated "Backups" folder in Google Drive.
-- **State Database (Postgres):** The primary backup mechanism for the state database will be the automated backup feature provided by the hosting platform (Render). This is the most reliable method for point-in-time recovery.
+- **State Database (Postgres):** The primary backup mechanism for the state database will be the automated backup feature provided by the hosting platform (Render).
 
 ### 2.3. Future State: CI/CD Pipeline
-- **Vision:** To enable automated deployment of n8n workflows from the GitHub repository to the n8n instance.
-- **Proposed Technology:** This would be achieved using **GitHub Actions**.
-- **Process:**
-    1. A change is merged into the `main` branch of the repository.
-    2. A GitHub Action is triggered.
-    3. The Action uses a secure SSH connection to the n8n host server.
-    4. On the server, it executes the `n8n-cli` (Command Line Interface) command to import the updated workflow `.json` file from the repository into the n8n instance, overwriting the old version.
+- **Vision:** To enable automated deployment of n8n workflows from the GitHub repository to the n8n instance using the `n8n-cli` and GitHub Actions.
 - **Status:** This is a future requirement and is not in the scope of the initial build.
 
 ---
 
-## 3. Development & Release Cycle
+## 3. Project Execution Framework
 
-### 3.1. Code Repository & Documentation
-- **Code & Artifact Repository:** GitHub.com is the central repository for all version-controlled project artifacts.
-- **Operator's Manual:** The GitHub Wiki serves as the primary documentation for the system's day-to-day administrator.
+### 3.1. Phase 1: Requirements Gathering
+- The Project Lead provides a set of `Business Requirements`.
+- The AI Solutions Architect translates these into formal documentation (BRS, HLD, LLD) and asks clarifying questions to ensure all details are captured.
+- This phase concludes when the Project Lead approves the final set of requirements documents.
 
-### 3.2. Development Phase (Conversational)
-New `Business Requirements` are provided by the Project Lead. The AI Solutions Architect will update the project documentation suite and propose technical solutions within the chat for rapid iteration.
+### 3.2. Phase 2: Build
+- The AI Solutions Architect provides step-by-step instructions for the Project Lead to implement the requirements.
+- This includes creating and configuring accounts (e.g., Google Service Account), setting up files and folders (e.g., Google Sheets), and providing the `JSON` for n8n workflows.
+- This phase focuses on one work item at a time.
+- If a technical challenge requires a change to the design, the process reverts to Phase 1 to update the documentation before proceeding.
 
-### 3.3. Release Phase (Formal)
-Upon the command **"This is approved. Prepare the release for commit,"** the AI will generate a complete "Release Package" containing all changed artifacts formatted for their destination. The Project Lead is responsible for committing these updates to the GitHub repository.
+### 3.3. Phase 3: Testing (To Be Detailed)
+- The Project Lead will test the implemented feature to ensure it meets the requirements.
+- (Further details on test cases and user acceptance criteria will be defined here in a future release).
+
+### 3.4. Phase 4: Release
+- After successful testing, the Project Lead will issue the command: **"This is approved. Prepare the release for commit."**
+- The AI Solutions Architect will generate the complete, final "Commit Package" containing all changed project artifacts.
+- The Project Lead is responsible for committing these final artifacts to the GitHub repository, which marks the formal conclusion of the work item.
 
 ---
 
 ## 4. Changelog
-- **v1.0 - v2.1:** Established core architecture, security model, and development processes.
-- **v3.0 (Current):** Added sections for Infrastructure & Operations, including Hosting, Backup & Disaster Recovery, and a vision for a future CI/CD pipeline. Updated the component diagram to include the Backup Automation workflow.
+- **v1.0 - v2.1:** Established core architecture, security model, and initial development processes.
+- **v3.0:** Added sections for Infrastructure & Operations, including Hosting, Backup & Disaster Recovery, and a vision for a future CI/CD pipeline.
+- **v4.0:** Formalized the "Project Execution Framework" (Requirements, Build, Test, Release) to structure the project lifecycle.
+- **v4.1 (Current):** Corrected Markdown formatting for nested Mermaid diagram to resolve rendering issues.
