@@ -55,4 +55,4 @@ To create an automated, conversational interface for the Eldoraigne Tennis Club 
 ## 3. Changelog
 - **v1.0 - v3.0:** Initial document creation and addition of new requirements.
 - **v3.1:** Re-structured the Business Requirements section into four distinct categories for better organization.
-- **v4.0 (Current):** Version number updated to align with the new multi-document suite release (v6.0 of the AI Manual). No other content changes.
+- **v4.0 (Current):** Version number updated to align with the new documentation suite release (v8.0 of the AI Manual). No other content changes.
