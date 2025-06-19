@@ -56,6 +56,4 @@ To transfer this project to a new AI model or platform, the following steps shou
 - **v7.0:** Introduced the "Pre-flight Check" and "Unabridged Changelog" mandates to improve quality control.
 - **v8.0 (Current):** Replaced the "Pre-flight Check" with a more explicit "Fact Check" Mandate to prevent repeated, specific errors in key project terms.
 
-```---
-
-Please review this corrected **AI Operating Manual**. I have checked it against the new Fact Check mandate. Once you approve it, we can proceed.
+---
