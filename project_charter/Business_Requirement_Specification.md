@@ -1,7 +1,7 @@
 # Business Requirement Specification (BRS)
 
 **Project Name:** Eldoraigne Automations & Chatbot
-**Version:** 3.1
+**Version:** 4.0
 **Last Updated:** 26 June 2025
 
 ---
@@ -28,7 +28,7 @@ To create an automated, conversational interface for the Eldoraigne Tennis Club 
 - **BR-S04: Technology Stack:** The system will use a self-hosted n8n.io instance, a Postgres SQL database, and Google Workspace.
 - **BR-S05: Version Control:** All project artifacts must be stored and version-controlled in a central GitHub repository.
 - **BR-S06: Secure Google Workspace Integration:** The system must interact with Google Workspace services securely via a dedicated Google Service Account.
-- **BR-S07: Comprehensive Documentation:** The project must maintain a structured, multi-page GitHub Wiki to serve as an "Operator's Manual," and a central `REFERENCES.md` file.
+- **BR-S07: Comprehensive Documentation:** The system must maintain a structured, multi-page GitHub Wiki to serve as an "Operator's Manual," and a central `REFERENCES.md` file.
 - **BR-S08: Hosting Portability:** The system architecture must be designed to be portable across different hosting providers.
 - **BR-S09: Future CI/CD Exploration:** The possibility of automating workflow deployments from GitHub shall be considered in the architectural design.
 
@@ -53,7 +53,6 @@ To create an automated, conversational interface for the Eldoraigne Tennis Club 
 ---
 
 ## 3. Changelog
-- **v1.0:** Document created.
-- **v2.0:** No changes.
-- **v3.0:** Added new business requirements for documentation, disaster recovery, and hosting.
-- **v3.1 (Current):** Re-structured the Business Requirements section into four distinct categories (System-Wide, Conversational, Process Automation, Phased Rollout) to better organize project scope. Renumbered requirements accordingly. The backup requirement is now formally listed as a backend automation (BR-A01).
+- **v1.0 - v3.0:** Initial document creation and addition of new requirements.
+- **v3.1:** Re-structured the Business Requirements section into four distinct categories for better organization.
+- **v4.0 (Current):** Version number updated to align with the new multi-document suite release (v6.0 of the AI Manual). No other content changes.
