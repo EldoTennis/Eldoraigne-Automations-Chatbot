@@ -1,7 +1,7 @@
 # Business Requirement Specification (BRS)
 
 **Project Name:** Eldoraigne Automations & Chatbot
-**Version:** 4.0
+**Version:** 4.1
 **Last Updated:** 26 June 2025
 
 ---
@@ -53,6 +53,9 @@ To create an automated, conversational interface for the Eldoraigne Tennis Club 
 ---
 
 ## 3. Changelog
-- **v1.0 - v3.0:** Initial document creation and addition of new requirements.
+- **v1.0:** Document created as part of monolithic charter.
+- **v2.0:** No changes.
+- **v3.0:** Added new business requirements for documentation, disaster recovery, and hosting.
 - **v3.1:** Re-structured the Business Requirements section into four distinct categories for better organization.
-- **v4.0 (Current):** Version number updated to align with the new documentation suite release (v8.0 of the AI Manual). No other content changes.
+- **v4.0:** Version number updated to align with the new multi-document suite release (v8.0 of the AI Manual).
+- **v4.1 (Current):** Version number updated to align with the new documentation suite release (v12.0 of the AI Manual). No other content changes.
