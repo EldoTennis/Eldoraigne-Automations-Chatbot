@@ -58,4 +58,4 @@ To create an automated, conversational interface for the Eldoraigne Tennis Club 
 - **v3.0:** Added new business requirements for documentation, disaster recovery, and hosting.
 - **v3.1:** Re-structured the Business Requirements section into four distinct categories for better organization.
 - **v4.0:** Version number updated to align with the new multi-document suite release (v8.0 of the AI Manual).
-- **v4.1 (Current):** Version number updated to align with the new documentation suite release (v12.0 of the AI Manual). No other content changes.
+- **v4.1 (Current):** Version number updated to align with the new documentation suite release (v13.0 of the AI Manual). No other content changes.
