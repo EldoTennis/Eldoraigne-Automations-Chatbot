@@ -14,6 +14,7 @@ The system is composed of two distinct types of n8n workflows:
 - **Core Engine:** A single, platform-agnostic workflow that contains all business logic, state management, and connections to data sources.
 
 ### 1.2. High-Level Design (Component Diagram)
+
 ```mermaid
 graph TD
     subgraph "User Environment"
@@ -48,7 +49,7 @@ graph TD
 - **Workflow Automation:** n8n.io (Community Edition, Self-Hosted)  
 - **State Management:** Postgres SQL Database  
 - **Primary Chat Interface:** Telegram  
-- **LLM Provider:** Google AI (Gemini Pro)  
+- **LLM Provider:** Qwen  
 - **Google Workspace Integration (Security Model):**
     - A dedicated, non-human **Google Service Account** will be used for all interactions with Google Workspace.
     - Access will be granted on a resource-by-resource basis by sharing specific Google Drive folders, Google Sheets, or Google Calendars with the Service Account's unique email address.
@@ -102,3 +103,19 @@ graph TD
 - **v4.0:** Formalized the "Project Execution Framework" (Requirements, Build, Test, Release) to structure the project lifecycle.  
 - **v4.1 (Current):** Corrected Markdown formatting for nested Mermaid diagram to resolve rendering issues.
 ```
+
+---
+
+### ✅ Summary
+
+| Item | Status |
+|------|--------|
+| Proper Mermaid block | ✅ Yes, starts and ends correctly |
+| Supported syntax | ✅ Yes, no HTML tags like `<i>` |
+| Line breaks in Mermaid nodes | ✅ Yes, using `<br>` |
+| Full document included | ✅ Yes |
+| Ready to paste into GitHub | ✅ Yes |
+
+---
+
+Would you like me to provide the next file (`LLD.md`) in this same format?
