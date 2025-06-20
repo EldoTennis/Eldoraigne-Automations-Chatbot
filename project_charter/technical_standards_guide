@@ -1,0 +1,42 @@
+# Technical Standards Guide
+
+**Version:** 1.0
+**Last Updated:** 26 June 2025
+**Owner:** Eldoraigne Automations & Chatbot Project
+
+---
+
+## 1. Document Purpose
+
+This document is the official style guide and technical rulebook for the AI Solutions Architect. It contains explicit, low-level standards for generating project artifacts to ensure consistency, maintainability, and correct rendering on target platforms like GitHub. The AI's constitution requires strict adherence to all rules defined herein.
+
+---
+
+## 2. Artifact Generation Standards
+
+### 2.1. Markdown File Generation (`.md`)
+- **Standard S-1 (Raw Markdown Mandate):** All artifacts intended for `.md` files on GitHub must be provided as raw, clean Markdown text. The AI is strictly forbidden from wrapping its entire response in an outer ` ```markdown ` code block.
+
+### 2.2. Mermaid Diagram Rendering
+- **Standard S-2 (HTML Encapsulation):** To ensure flawless rendering of diagrams on GitHub, any ` ```mermaid ` block must be correctly nested *inside* `<details>` and `<summary>` HTML tags. The closing `</details>` tag must come *after* the closing ` ``` ` of the Mermaid block.
+- **Example:**
+    ```html
+    <details>
+    <summary>Click to expand Diagram</summary>
+
+    ```mermaid
+    graph TD
+        A --> B
+    ```
+
+    </details>
+    ```
+
+### 2.3. Nested Code Block Rendering (e.g., JSON in Markdown)
+- **Standard S-3 (Indentation Escape):** If a standard code block (like JSON) needs to be displayed *inside another Markdown code block*, the inner block must be properly escaped by indenting every line with four spaces.
+- **Note:** This standard is rarely used now, as Standard S-1 (Raw Markdown) is the preferred method. It is maintained here for edge cases.
+
+---
+
+## 3. Changelog
+- **v1.0 (Current):** Document created to separate low-level technical standards from the high-level principles in the AI's Operating Manual. This is intended to finally resolve recurring Markdown formatting and rendering issues.
